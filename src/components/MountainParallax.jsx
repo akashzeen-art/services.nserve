@@ -31,7 +31,7 @@ const SERVICES = [
   {
     id: 'crossborder',
     kicker: '02 · Cross Border',
-    title: 'Global Rails',
+    title: 'FOREX repatriation Enabler',
     copy: 'Move value worldwide with corridor coverage, currency liquidity and compliance-ready flows.',
     tags: ['FX', 'Corridors', 'Liquidity'],
     href: 'http://payments.nserve.co/',
