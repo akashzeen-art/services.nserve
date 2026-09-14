@@ -45,7 +45,7 @@ body,
   width: 100%;
   min-height: 100%;
   font-family: 'Montserrat', sans-serif;
-  font-size: 99px;
+  font-size: 68px;
   text-align: center;
 }
 
@@ -78,6 +78,7 @@ main svg {
 .hero-word {
   letter-spacing: 0.08em;
   font-weight: 900;
+  font-size: 68px;
 }
 
 .scene-vignette {
@@ -171,15 +172,16 @@ main svg {
 
 .services {
   left: 50%;
-  top: 52%;
+  top: 54%;
   width: min(980px, calc(100% - 48px));
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 28px;
+  gap: 24px;
   z-index: 6;
   font-size: 16px;
   text-align: left;
   align-items: stretch;
+  pointer-events: none;
 }
 
 .service-card {
@@ -187,11 +189,9 @@ main svg {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  min-height: 320px;
-  padding: 32px 30px 28px;
+  min-height: 0;
   border-radius: 24px;
-  background: rgba(255, 255, 255, 0.82);
+  background: rgba(255, 255, 255, 0.9);
   border: 1px solid rgba(22, 42, 67, 0.1);
   color: #162a43;
   text-decoration: none;
@@ -199,9 +199,52 @@ main svg {
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   box-shadow:
-    0 22px 55px rgba(22, 42, 67, 0.14),
+    0 22px 55px rgba(22, 42, 67, 0.16),
     inset 0 1px 0 rgba(255, 255, 255, 0.8);
   transition: box-shadow 0.28s ease;
+  will-change: transform, opacity;
+}
+
+.service-media {
+  position: relative;
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: #9ec9f5;
+  line-height: 0;
+}
+
+.service-card--crossborder .service-media {
+  background: #000;
+}
+
+.service-media img {
+  position: static;
+  width: 100%;
+  height: auto;
+  max-height: none;
+  object-fit: unset;
+  object-position: center;
+  display: block;
+  transition: transform 0.45s ease;
+}
+
+.service-card--gateway .service-media img,
+.service-card--crossborder .service-media img {
+  object-position: center;
+}
+
+.service-card:hover .service-media img {
+  transform: scale(1.02);
+}
+
+.service-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 22px 24px 22px;
+  flex: 1;
 }
 
 .service-card::before {
@@ -210,6 +253,7 @@ main svg {
   inset: 0 auto 0 0;
   width: 5px;
   background: var(--card-accent);
+  z-index: 2;
 }
 
 .service-card::after {
@@ -222,11 +266,13 @@ main svg {
   background: linear-gradient(110deg, transparent, rgba(255, 255, 255, 0.45), transparent);
   transform: skewX(-16deg);
   transition: left 0.55s ease;
+  z-index: 2;
+  pointer-events: none;
 }
 
 .service-card:hover {
   box-shadow:
-    0 28px 70px rgba(22, 42, 67, 0.2),
+    0 28px 70px rgba(22, 42, 67, 0.22),
     0 0 0 1px var(--card-accent);
 }
 
@@ -252,7 +298,7 @@ main svg {
 }
 
 .service-card strong {
-  font-size: 30px;
+  font-size: 26px;
   line-height: 0.95;
   letter-spacing: 0.02em;
   text-transform: uppercase;
@@ -261,7 +307,7 @@ main svg {
 .service-card p {
   margin: 0;
   font-family: var(--font-display);
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 500;
   line-height: 1.5;
   color: rgba(22, 42, 67, 0.72);
@@ -309,7 +355,11 @@ main svg {
 
 @media (max-width: 720px) {
   .northface {
-    font-size: 56px;
+    font-size: 42px;
+  }
+
+  .hero-word {
+    font-size: 42px;
   }
 
   .brand-bar {
@@ -322,25 +372,72 @@ main svg {
   }
 
   .services {
-    top: auto;
-    bottom: 18px;
-    width: calc(100% - 28px);
+    top: 52%;
+    width: calc(100% - 24px);
     grid-template-columns: 1fr;
-    gap: 12px;
+    gap: 10px;
   }
 
   .service-card {
     min-height: 0;
-    padding: 20px 18px 18px;
-    border-radius: 18px;
+    border-radius: 16px;
+    display: grid;
+    grid-template-columns: 108px 1fr;
+    align-items: stretch;
+  }
+
+  .service-media {
+    position: relative;
+    height: 100%;
+    min-height: 112px;
+    max-height: 128px;
+    overflow: hidden;
+  }
+
+  .service-media img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+  }
+
+  .service-body {
+    padding: 10px 12px 12px;
+    gap: 6px;
+    justify-content: center;
+  }
+
+  .service-kicker {
+    font-size: 9px;
+    letter-spacing: 0.12em;
   }
 
   .service-card strong {
-    font-size: 22px;
+    font-size: 16px;
+  }
+
+  .service-card p {
+    display: none;
+  }
+
+  .service-tags {
+    gap: 4px;
+  }
+
+  .service-tags span {
+    font-size: 9px;
+    padding: 4px 7px;
+  }
+
+  .service-cta {
+    font-size: 11px;
+    letter-spacing: 0.1em;
   }
 
   .scroll-hint {
     bottom: auto;
-    top: 38%;
+    top: 34%;
   }
 }

@@ -24,7 +24,9 @@ const SERVICES = [
     copy: 'Accept payments the way India prefers — UPI, cards, wallets and hosted checkout.',
     tags: ['UPI', 'Cards', 'Checkout'],
     href: 'https://gateway.nserve.co/',
-    cta: 'Visit Gateway',
+    cta: 'View More',
+    image: '/cards/tajmahal.png',
+    from: { x: -640, y: 520, rotate: -14 },
   },
   {
     id: 'crossborder',
@@ -33,7 +35,9 @@ const SERVICES = [
     copy: 'Move value worldwide with corridor coverage, currency liquidity and compliance-ready flows.',
     tags: ['FX', 'Corridors', 'Liquidity'],
     href: 'http://payments.nserve.co/',
-    cta: 'Visit Payments',
+    cta: 'View More',
+    image: '/cards/crossborder.png',
+    from: { x: 640, y: 520, rotate: 14 },
   },
 ];
 
@@ -45,9 +49,17 @@ export default function MountainParallax() {
     if (!root) return undefined;
 
     const ctx = gsap.context(() => {
-      gsap.set('.services', { xPercent: -50 });
-      gsap.set('.service-card--gateway', { x: -520, y: 340, rotate: -10, opacity: 0 });
-      gsap.set('.service-card--crossborder', { x: 520, y: 340, rotate: 10, opacity: 0 });
+      const isMobile = window.matchMedia('(max-width: 720px)').matches;
+      const gatewayFrom = isMobile
+        ? { x: -220, y: 420, rotate: -10 }
+        : { x: -640, y: 520, rotate: -14 };
+      const crossFrom = isMobile
+        ? { x: 220, y: 420, rotate: 10 }
+        : { x: 640, y: 520, rotate: 14 };
+
+      gsap.set('.services', { xPercent: -50, yPercent: -50 });
+      gsap.set('.service-card--gateway', { ...gatewayFrom, opacity: 0, scale: 0.88 });
+      gsap.set('.service-card--crossborder', { ...crossFrom, opacity: 0, scale: 0.88 });
       gsap.from('.brand-bar', { y: -24, opacity: 0, duration: 0.9, ease: 'power3.out', delay: 0.15 });
       gsap.from('.scroll-hint', { y: 16, opacity: 0, duration: 0.8, ease: 'power3.out', delay: 0.45 });
 
@@ -70,15 +82,15 @@ export default function MountainParallax() {
         .fromTo('.scroll-hint', { opacity: 1 }, { opacity: 0 }, 0)
         .fromTo(
           '.service-card--gateway',
-          { x: -520, y: 340, rotate: -10, opacity: 0 },
-          { x: 0, y: 0, rotate: 0, opacity: 1, ease: 'power3.out' },
-          0.42,
+          { ...gatewayFrom, opacity: 0, scale: 0.88 },
+          { x: 0, y: 0, rotate: 0, opacity: 1, scale: 1, ease: 'power3.out' },
+          0.38,
         )
         .fromTo(
           '.service-card--crossborder',
-          { x: 520, y: 340, rotate: 10, opacity: 0 },
-          { x: 0, y: 0, rotate: 0, opacity: 1, ease: 'power3.out' },
-          0.48,
+          { ...crossFrom, opacity: 0, scale: 0.88 },
+          { x: 0, y: 0, rotate: 0, opacity: 1, scale: 1, ease: 'power3.out' },
+          0.44,
         );
     }, root);
 
@@ -124,23 +136,23 @@ export default function MountainParallax() {
           <image className="mountFg" href={ASSETS.mountFg} width="1200" height="800" />
           <image className="cloud1" href={ASSETS.cloud1} width="1200" height="800" />
           <image className="cloud3" href={ASSETS.cloud3} width="1200" height="800" />
-          <text className="hero-word" fill="#fff" x="600" y="196" textAnchor="middle">
+          <text className="hero-word" fill="#fff" x="600" y="168" textAnchor="middle">
             DIGITAL
           </text>
           <polyline
             className="arrow"
             fill="#fff"
-            points="599,250 599,289 590,279 590,282 600,292 610,282 610,279 601,289 601,250"
+            points="599,218 599,257 590,247 590,250 600,260 610,250 610,247 601,257 601,218"
           />
 
           <g mask="url(#m)">
             <rect fill="#fff" width="100%" height="100%" />
-            <text className="hero-word" x="600" y="196" fill="#162a43" textAnchor="middle">
+            <text className="hero-word" x="600" y="168" fill="#162a43" textAnchor="middle">
               DIRECT
             </text>
           </g>
 
-          <rect id="arrow-btn" width="100" height="100" opacity="0" x="550" y="220" style={{ cursor: 'pointer' }} />
+          <rect id="arrow-btn" width="100" height="100" opacity="0" x="550" y="190" style={{ cursor: 'pointer' }} />
         </svg>
 
         <div className="scene-vignette" aria-hidden="true" />
@@ -158,7 +170,7 @@ export default function MountainParallax() {
           <i />
         </p>
 
-        <div className="services">
+        <div className="services" aria-label="nSERVE services">
           {SERVICES.map((service) => (
             <a
               key={service.id}
@@ -167,18 +179,23 @@ export default function MountainParallax() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <span className="service-kicker">{service.kicker}</span>
-              <strong>{service.title}</strong>
-              <p>{service.copy}</p>
-              <div className="service-tags">
-                {service.tags.map((tag) => (
-                  <span key={tag}>{tag}</span>
-                ))}
+              <div className="service-media">
+                <img src={service.image} alt="" />
               </div>
-              <span className="service-cta">
-                {service.cta}
-                <em>→</em>
-              </span>
+              <div className="service-body">
+                <span className="service-kicker">{service.kicker}</span>
+                <strong>{service.title}</strong>
+                <p>{service.copy}</p>
+                <div className="service-tags">
+                  {service.tags.map((tag) => (
+                    <span key={tag}>{tag}</span>
+                  ))}
+                </div>
+                <span className="service-cta">
+                  {service.cta}
+                  <em>→</em>
+                </span>
+              </div>
             </a>
           ))}
         </div>
